@@ -7,7 +7,6 @@
 + [Install & Hello World3](#Install-and-Hello-World3)
 + [How to tune your own simulation](#How-to-tune-your-own-simulation)
 + [Licence](#Licence)
-+ [How to cite PyWorld3 with Bibtex](#How-to-cite-PyWorld3-with-Bibtex)
 + [References & acknowledgment](#References-and-acknowledgment)
 
 ---
