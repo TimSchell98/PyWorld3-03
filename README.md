@@ -105,6 +105,7 @@ To cite the project in your paper via BibTex:
 
 # References and acknowledgment
 
+-  Vanwynsberghe,  Charles. *PyWorld3 - The World3 model revisited in Python*, 2021
 -  Meadows, Dennis L., William W. Behrens, Donella H. Meadows, Roger F. Naill,
 Jørgen Randers, and Erich Zahn. *Dynamics of Growth in a Finite World*.
 Cambridge, MA: Wright-Allen Press, 1974.
