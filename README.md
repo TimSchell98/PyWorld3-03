@@ -25,16 +25,11 @@ into 5 main sectors: Population, Capital, Agriculture, Persistent Pollution
 and Nonrenewable Resource.
 
 2004 update:
-PyWorl3 was updated to the 2004 version PyWorld3-03 with the original STELLA version of the book "Limits to Growth: The 30-year update". PyWorld3-03 has been verified with the original simulation. Not all functionalities have been implemented. See original PyWorld3.
+PyWorld3 was updated to the 2004 version PyWorld3-03 with the original STELLA version of the book "Limits to Growth: The 30-year update". PyWorld3-03 has been verified with the original simulation. Not all functionalities have been implemented. See original PyWorld3.
 
 # Install and Hello World3
 
-Install pyworld3 either via:
-```
-pip install pyworld3
-```
-
-or by cloning the repository, installing the requirements ``numpy``, ``scipy``
+Install pyworld3 by cloning the repository, installing the requirements ``numpy``, ``scipy``
 and ``matplotlib`` and do:
 
 ```
