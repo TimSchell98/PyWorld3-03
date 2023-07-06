@@ -11,7 +11,7 @@
 
 ---
 
-PyWorld3 was updated to the 2004 version PyWorld3-03 with the original STELLA version of the book "Limits to Growth: The 30-year update". PyWorld3-03 has been verified with the original simulation. Not all functionalities have been implemented. See original PyWorld3.
+PyWorld3 was updated to the 2004 version PyWorld3-03 with the original STELLA version of the book "Limits to Growth: The 30-year update". PyWorld3-03 has been verified with the original simulation. Not all functionalities have been implemented. See original PyWorld3 (https://github.com/cvanwynsberghe/pyworld3).
 
 PyWorld3 is a Python implementation of the World3 model, as described in
 the book *Dynamics of Growth in a Finite World*. This version slightly differs
