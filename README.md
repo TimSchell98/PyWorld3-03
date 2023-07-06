@@ -11,6 +11,8 @@
 
 ---
 
+PyWorld3 was updated to the 2004 version PyWorld3-03 with the original STELLA version of the book "Limits to Growth: The 30-year update". PyWorld3-03 has been verified with the original simulation. Not all functionalities have been implemented. See original PyWorld3.
+
 PyWorld3 is a Python implementation of the World3 model, as described in
 the book *Dynamics of Growth in a Finite World*. This version slightly differs
 from the previous one used in the world-known reference *the Limits to Growth*,
@@ -24,8 +26,6 @@ the sake of clarity and model calibration purposes, the model is structured
 into 5 main sectors: Population, Capital, Agriculture, Persistent Pollution
 and Nonrenewable Resource.
 
-2004 update:
-PyWorld3 was updated to the 2004 version PyWorld3-03 with the original STELLA version of the book "Limits to Growth: The 30-year update". PyWorld3-03 has been verified with the original simulation. Not all functionalities have been implemented. See original PyWorld3.
 
 # Install and Hello World3
 
