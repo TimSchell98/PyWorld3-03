@@ -36,6 +36,8 @@ and ``matplotlib`` and do:
 python setup.py install
 ```
 
+Please note that the "hello_world" function was not implemented in the update. I am planing to do so in the future.
+
 Run the provided example to simulate the standard run, known as the *Business
 as usual* scenario:
 ``` Python
