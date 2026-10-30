@@ -79,7 +79,10 @@ class Capital:
     icor1 : float, optional
         icor, value before time=pyear [years]. The default is 3.
     icor2 : float, optional
-        icor, value after time=pyear [years]. The default is 3.
+        icor, value after the switch time, when the capital sector runs alone
+        [years]. The default is 3. In World3, the value after the switch time
+        is ICOR2T * COYM * COPM (icor2t * coym * pptmi), the capital cost of
+        the three technologies (2004 update).
     scor1 : float, optional
         scor, value before time=pyear [years]. The default is 1.
     scor2 : float, optional
@@ -108,7 +111,10 @@ class Capital:
     icir : numpy.ndarray
         industrial capital investment rate [dollars/year].
     icor : numpy.ndarray
-        industrial capital-output ratio [years].
+        industrial capital-output ratio [years]: icor1 until the first of
+        pyear, pyear_res_tech, pyear_y_tech and pyear_pp_tech, then
+        icor2t * coym * pptmi, which is 3 until a technology progresses
+        (2004 update).
     iopc : numpy.ndarray
         industrial output per capita [dollars/person-year].
     alic : numpy.ndarray
@@ -336,6 +342,11 @@ class Capital:
         self.p3 = np.full((self.n,), np.nan)
         # capital to resource
         self.fcaor = np.full((self.n,), np.nan)
+        # technology costs: ICOR2T (resource), COYM (agriculture), COPM
+        # (pollution), constant when the capital sector runs alone
+        self.icor2t = np.full((self.n,), np.nan)
+        self.coym = np.full((self.n,), np.nan)
+        self.pptmi = np.full((self.n,), np.nan)
         # capital to agriculture
         self.fioaa = np.full((self.n,), np.nan)
         # tables
@@ -371,6 +382,9 @@ class Capital:
         self.p2[k] = 0.25 * self.pop[k]
         self.p3[k] = 0.25 * self.pop[k]
         self.fcaor[k] = self.fcaor_f(self.time[k])
+        self.icor2t[k] = self.icor2
+        self.coym[k] = 1
+        self.pptmi[k] = 1
         self.fioaa[k] = self.fioaa_f(self.time[k])
 
     def loop0_exogenous(self):
@@ -542,13 +556,23 @@ class Capital:
         
         self.icdr[kl] = self.ic[k] / self.alic[k]
 
-    @requires(["icor"])
+    @requires(["icor"], ["icor2t", "coym", "pptmi"])
     def _update_icor(self, k):
         """
-        From step k requires: nothing
+        From step k requires: ICOR2T COYM PPTMI
+
+        2004 update: the technologies cost capital. After the switch time, the
+        industrial capital-output ratio is ICOR2T(NRUF) * COYM(LYF) *
+        COPM(PPGF), as in World3-03; each factor stays at its no-technology
+        value (3, 1, 1) until its own technology starts, so the switch time is
+        the first of the policy years.
         """
-        
-        self.icor[k] = clip(self.icor2, self.icor1, self.time[k], self.pyear)
+        t_switch = min(self.pyear,
+                       getattr(self, "pyear_res_tech", self.pyear),
+                       getattr(self, "pyear_y_tech", self.pyear),
+                       getattr(self, "pyear_pp_tech", self.pyear))
+        icor2 = self.icor2t[k] * self.coym[k] * self.pptmi[k]
+        self.icor[k] = clip(icor2, self.icor1, self.time[k], t_switch)
 
     @requires(["io"], ["ic", "fcaor", "cuf", "icor"])
     def _update_io(self, k):
