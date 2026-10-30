@@ -89,6 +89,10 @@ class Resource:
         nonrenewable resource fraction remaining [].
     nruf : numpy.ndarray
         nonrenewable resource usage factor [].
+    icor2t : numpy.ndarray
+        industrial capital-output ratio from the resource conservation
+        technology, ICOR2T [years]: 3 while nruf = 1, up to 3.75 as the
+        technology lowers nruf (2004 update).
     nrur : numpy.ndarray
         nonrenewable resource usage rate [resource units/year].
     pcrum : numpy.ndarray
@@ -149,6 +153,7 @@ class Resource:
         self.nrfr = np.full((self.n,), np.nan)
         self.nruf = np.full((self.n,), np.nan)
         self.nruf2 = np.full((self.n,), np.nan)
+        self.icor2t = np.full((self.n,), np.nan)
         self.nrur = np.full((self.n,), np.nan)
         self.pcrum = np.full((self.n,), np.nan)
         self.fcaor = np.full((self.n,), np.nan)
@@ -194,7 +199,7 @@ class Resource:
         with open(json_file) as fjson:
             tables = json.load(fjson)
 
-        func_names = ["PCRUM", "FCAOR1", "FCAOR2", "RTCM"]
+        func_names = ["PCRUM", "FCAOR1", "FCAOR2", "RTCM", "ICOR2T"]
 
         for func_name in func_names:
             for table in tables:
@@ -282,6 +287,7 @@ class Resource:
         self._update_rtcr(0)
         self._update_nruf2(0)
         self._update_nruf(0)
+        self._update_icor2t(0)
         self._update_pcrum(0)
         self._update_nrur(0, 0)
 
@@ -305,6 +311,7 @@ class Resource:
         self._update_rt(k,j)
         self._update_nruf2(k)
         self._update_nruf(k)
+        self._update_icor2t(k)
         self._update_pcrum(k)
         self._update_nrur(k, kl)
 
@@ -402,6 +409,14 @@ class Resource:
         """
         
         self.nruf[k] = clip(self.nruf2[k], self.nruf1, self.time[k], self.pyear_res_tech)
+
+    @requires(["icor2t"], ["nruf"])
+    def _update_icor2t(self, k):
+        """
+        From step k requires: nruf
+        """
+
+        self.icor2t[k] = self.icor2t_f(self.nruf[k])  # 2004 update
 
     @requires(["pcrum"], ["iopc"])
     def _update_pcrum(self, k):

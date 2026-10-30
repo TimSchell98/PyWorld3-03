@@ -310,6 +310,17 @@ class World3(Population, Capital, Agriculture, Pollution, Resource):
         self._update_state_ic(k, j, jk)
         self._update_alic(k)
         self._update_icdr(k, kl)
+        # 2004 update: the technology factors come before icor, which uses
+        # their capital cost; they depend only on the previous step (delays)
+        self._update_nruf2(k)
+        self._update_nruf(k)
+        self._update_icor2t(k)
+        self._update_lyf2(k)
+        self._update_lyf(k)
+        self._update_coym(k)
+        self._update_ppgf2(k)
+        self._update_ppgf(k)
+        self._update_pptmi(k)
         self._update_icor(k)
         self._update_io(k) # need fcaor from res
         self._update_iopc(k) # need pop from pop
@@ -349,8 +360,6 @@ class World3(Population, Capital, Agriculture, Pollution, Resource):
         self._update_lymc(k)
         self._update_mlymc(k)
         self._update_lymap(k) # need io from cap and io70 from pol
-        self._update_lyf2(k)
-        self._update_lyf(k)
         self._update_ly(k)
         self._update_alai(k)
         self._update_mpai(k)
@@ -436,8 +445,6 @@ class World3(Population, Capital, Agriculture, Pollution, Resource):
 
         # from res 2
         #self._update_pcrum(k) # need iopc from cap
-        self._update_nruf2(k)
-        self._update_nruf(k)
         self._update_nrur(k, kl) # need pop from pop    
         self._update_rtc(k)
         self._update_rtcm(k)
@@ -460,8 +467,6 @@ class World3(Population, Capital, Agriculture, Pollution, Resource):
 
         # from pol 2
         self._update_ppga(k) # need aiph and al from arg
-        self._update_ppgf2(k)
-        self._update_ppgf(k)
         self._update_ppgr(k)
         self._update_ppar(k)
         self._update_ahlm(k)
@@ -471,7 +476,6 @@ class World3(Population, Capital, Agriculture, Pollution, Resource):
         self._update_pptcm(k)
         self._update_pptcr(k,j)
         self._update_ppt(k,j)
-        self._update_pptmi(k)
         self._update_pii(k) # need io from cap
         self._update_fio70(k) # need io from cap
         self._update_ymap1(k)

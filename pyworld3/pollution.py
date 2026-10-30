@@ -685,7 +685,7 @@ class Pollution:
 
         self.ppgf2[k] = self.dlinf3_ppt(k, self.tdt)
         
-    @requires(["ppmi"],["ppgf"])
+    @requires(["pptmi"],["ppgf"])
     def _update_pptmi(self, k):
         """
         From step k requires: ppgf

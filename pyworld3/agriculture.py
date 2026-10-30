@@ -169,6 +169,9 @@ class Agriculture:
         land yield [vegetable-equivalent kilograms/hectare-year].
     lyf : numpy.ndarray
         land yield factor [].
+    coym : numpy.ndarray
+        multiplier of the industrial capital-output ratio from the land yield
+        technology, COYM []: 1 while lyf = 1, up to 1.5 (2004 update).
     lymap : numpy.ndarray
         land yield multiplier from air pollution [].
     lymap1 : numpy.ndarray
@@ -333,6 +336,7 @@ class Agriculture:
         self.cai = np.full((self.n,), np.nan)
         self.ly = np.full((self.n,), np.nan)
         self.lyf = np.full((self.n,), np.nan)
+        self.coym = np.full((self.n,), np.nan)
         self.lymap = np.full((self.n,), np.nan)
         self.lymap1 = np.full((self.n,), np.nan)
         self.lymap2 = np.full((self.n,), np.nan)
@@ -416,7 +420,7 @@ class Agriculture:
         with open(json_file) as fjson:
             tables = json.load(fjson)
 
-        func_names = ["IFPC1", "IFPC2", "FIOAA1", "FIOAA2", "DCPH",
+        func_names = ["IFPC1", "IFPC2", "FIOAA1", "FIOAA2", "DCPH", "COYM",
                       "LYMC", "LYMAP1", "LYMAP2",
                       "FIALD", "MLYMC",
                       "LLMY1", "LLMY2", "UILPC",
@@ -542,6 +546,7 @@ class Agriculture:
         self._update_aiph(0)
         self._update_lymc(0)
         self._update_lyf(0)
+        self._update_coym(0)
         self._update_lymap(0)
         # loop 4
         self._update_lfdr(0)
@@ -615,6 +620,7 @@ class Agriculture:
         self._update_aiph(k)
         self._update_lymc(k)
         self._update_lyf(k)
+        self._update_coym(k)
         self._update_lymap(k)
         # loop 4
         self._update_lfdr(k)
@@ -809,6 +815,14 @@ class Agriculture:
         """
         
         self.lyf[k] = clip(self.lyf2[k], self.lyf1, self.time[k],self.pyear_y_tech) # 2004 update: changed lyf2 to array
+
+    @requires(["coym"], ["lyf"])
+    def _update_coym(self, k):
+        """
+        From step k requires: LYF
+        """
+
+        self.coym[k] = self.coym_f(self.lyf[k])  # 2004 update
 
     @requires(["lymap1", "lymap2", "lymap"], ["io"])
     def _update_lymap(self, k):
